@@ -11,7 +11,7 @@ The FONDA_trends-nf workflow comprises the following steps:
 - AR trend analyses (R script)
 - Hypothesis testing using Generalized Lease Square regression (R script)
 
-![alt text](https://github.com/erfea/FONDA_trends-nf/blob/main/2023_08_22_Workflows_Git.jpg)
+![alt text](https://github.com/erfea/FONDA_trends-nf/blob/main/2023_08_22_Workflow_Git.jpg)
 
 ### General structure:
 `R_dockr` - Comprises a Dockerfile for R environment
