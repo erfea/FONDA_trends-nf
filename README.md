@@ -1,1 +1,31 @@
-# FONDA_trends-nf
+# Sensitivity of long-term trends in European grasslands to endmembers definition.
+
+The aim of the FONDA_trends-nf workflow was to automatize repetitive post-processing steps marked in the workflow diagram below. The overarching goal of the study was to compare long-term trends calculated for a selection of test sites using a wide selection of input parameters.  
+The input data of this workflow were 1984-2022 time series of BOA Landsat and Sentinel-2 scenes acquired over 13 sides located across Europe. The Level 1 data used to derive the BOA time series were downloaded from USGS and ESA-Copernicus data repositories and subsequently processed to Level 2 BOA with FORCE. Finally, the data were cross-normalized between sensors to assure consistency of time series. The aforementioned preprocessing, presented in the left portion of the workflow graph, was performed beforehand and was not a part of the FONDA_trends-nf workflow.
+
+The FONDA_trends-nf workflow comprises the following steps:
+- Spectral Mixture Analyses (SMA), Land Surface Phenology and Radial Basis Function filtering performed by the means of FORCE `force-higher-level` module. 
+- derivation of Start of Season and End of Season Dates (py script)
+- creation of gap-free monthly composites (py script)
+- derivation of Cumulative Endmember Fractions (py script)
+- AR trend analyses (R script)
+- Hypothesis testing using Generalized Lease Square regression (R script)
+
+![alt text](https://github.com/erfea/FONDA_trends-nf/blob/main/2023_08_22_Workflows_Git.jpg)
+
+### General structure:
+`R_dockr` - Comprises a Dockerfile for R environment
+`conda_env` - Comprises a .yml file describing Python environment
+`endm` - Comprises an example of a .txt file with definition of endmembers used for SMA. First column: gv; second column: npv; third column: soil; fourth column: shade.
+`nf` - Comprises Nextflow workflow
+
+### Notes on Nextflow inmplementation:
+The workflow was written and executed on local Linux machine, hence the many variables are hardcodded. Furthermore, the workflow uses local FORCE and R-specific Docker containers available in the local environment.
+`/mainPRM.nf` defines the execution of the postprocessing workflow (to be called to execute the workflow)
+`/local.config` defines the loclt environment. 
+`AR|CEF|FNF|GLS|SMA_RBF|SOS_EOS|TSA_SMA_RBF_parameters.nf`  - definitions of processes
+
+`nextflow run -c nextflow.config -profile bb8 mainPRM.nf -resume `
+
+## Notes
+The FONDA_trends-nf workflow is a part of the ongoing research with a related research paper in preparation. 
